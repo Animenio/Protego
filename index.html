@@ -23,6 +23,8 @@
       /* alert colors */
       --danger-red: #D64045;
       --alert-orange: #E8985E;
+
+      --info-blue: #0F6CBD;
     }
 
     body {
@@ -60,6 +62,45 @@
 
     .nav-item.active { color: var(--deep-emerald); }
 
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 9999px;
+      border: 1px solid rgba(10, 26, 47, 0.08);
+      font-size: 11px;
+      background-color: #F8FAFC;
+    }
+
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: help;
+    }
+
+    .tooltip .tooltip-content {
+      visibility: hidden;
+      opacity: 0;
+      width: 260px;
+      background-color: #0F172A;
+      color: #fff;
+      text-align: left;
+      border-radius: 8px;
+      padding: 10px 12px;
+      position: absolute;
+      z-index: 999;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: opacity 0.2s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .tooltip:hover .tooltip-content { visibility: visible; opacity: 1; }
+
     /* Betting Logos simulation */
     .logo-sisal { background: #265C4B; color: white; }
     .logo-goldbet { background: #FFD700; color: black; }
@@ -85,110 +126,7 @@
       height: 200px;
       background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
     }
-
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-
-    /* ===== LOGO PROTEGO ===== */
-    .protego-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: 'Nunito', sans-serif;
-      cursor: default;
-    }
-    .logo-icon {
-      position: relative;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .icon-shield {
-      position: absolute;
-      bottom: 0;
-      width: 44px;
-      height: 24px;
-      border-bottom-left-radius: 50px;
-      border-bottom-right-radius: 50px;
-      background-color: var(--navy-trust);
-      z-index: 1;
-    }
-    .icon-sphere {
-      position: absolute;
-      top: 8px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--sky-mint) 0%, var(--deep-emerald) 100%);
-      z-index: 2;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-    .icon-sphere::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 60%);
-    }
-    .icon-star {
-      position: absolute;
-      top: 0;
-      left: 12px;
-      width: 14px;
-      height: 14px;
-      background-color: var(--warm-gold);
-      clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
-      z-index: 3;
-    }
-    .logo-text {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--navy-trust);
-      letter-spacing: -0.02em;
-      line-height: 1;
-    }
-
-    /* ===== animations ===== */
-    @keyframes slideUp {
-      from { transform: translateY(100%); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    .animate-slide-up {
-      animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @media (max-width: 600px) {
-      .logo-icon { transform: scale(0.8); }
-      .logo-text { font-size: 1.6rem; }
-    }
-  </style>
-</head>
-
-<body>
-<div class="app-container">
-
-  <header class="p-5 flex flex-col gap-2 bg-white/95 backdrop-blur sticky top-0 z-20 border-b border-[rgba(10,26,47,0.06)]">
-    <div class="flex justify-between items-center">
-      <div class="protego-logo">
-        <div class="logo-icon">
-          <div class="icon-star"></div>
-          <div class="icon-shield"></div>
-          <div class="icon-sphere"></div>
-        </div>
-        <div class="logo-text">Protego</div>
-      </div>
-
-      <div class="flex items-center gap-3">
-        <div id="online-badge"
-             class="px-2 py-1 rounded text-xs border flex items-center gap-1"
-             style="background-color: rgba(166,230,213,0.25); border-color: rgba(29,122,111,0.35); color: var(--deep-emerald);">
-          <i class="fas fa-signal text-[10px]"></i>
-          <span>Online</span>
+@@ -192,76 +233,158 @@
         </div>
 
         <!-- UPDATED: bell opens notification center -->
@@ -215,8 +153,24 @@
              style="background: linear-gradient(90deg, rgba(166,230,213,0.35) 0%, rgba(29,122,111,0.20) 100%); border-color: rgba(29,122,111,0.45);">
           <i class="fas fa-magic text-xs" style="color: var(--warm-gold);"></i>
           <span id="saving-rate-label" class="text-xs" style="color: var(--navy-trust);">
+          <span id="saving-rate-label" class="text-xs flex items-center gap-2" style="color: var(--navy-trust);">
             Investimento autom.: <strong>12%</strong> sui volumi
+            <button onclick="openExplainability()" class="text-[10px] px-2 py-1 rounded-full border border-white/50 bg-white/70 text-slate-600 hover:text-slate-900" aria-label="Spiega come funziona">
+              Come funziona
+            </button>
           </span>
+        </div>
+
+        <div id="cooling-banner" class="mt-2 hidden">
+          <div class="pill border-amber-200 bg-amber-50 flex-wrap" style="border-color: rgba(233,180,60,0.5);">
+            <div class="flex items-center gap-2">
+              <i class="fas fa-hourglass-half text-[11px]" style="color: var(--alert-orange);"></i>
+              <span class="text-[11px] text-slate-700">Cambio protezione in attesa (48h). Attivazione tra <strong id="cooling-countdown">—</strong>.</span>
+            </div>
+            <button onclick="cancelCoolingChange()" class="ml-auto text-[10px] px-2 py-1 rounded-full border border-amber-200 bg-white/70 text-amber-700 hover:bg-amber-100" aria-label="Annulla richiesta di modifica">
+              Annulla richiesta
+            </button>
+          </div>
         </div>
 
         <div class="mt-2 inline-flex items-center gap-2 px-3 py-2 rounded-full border"
@@ -231,12 +185,83 @@
           <div class="flex justify-between text-[10px] text-slate-500 mb-1">
             <span>Obiettivo: Fondo Sicurezza € 20.000</span>
             <span id="goal-percentage">73%</span>
+      <div class="mt-5 w-full max-w-xs mx-auto text-left">
+        <div class="flex justify-between text-[10px] text-slate-500 mb-1">
+          <span>Obiettivo: Fondo Sicurezza € 20.000</span>
+          <span id="goal-percentage">73%</span>
           </div>
           <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
             <div id="goal-bar"
                  class="h-full"
                  style="background: linear-gradient(90deg, var(--deep-emerald), var(--sky-mint)); width:73%"></div>
           </div>
+        </div>
+      </div>
+
+      <div class="card p-4 flex flex-col gap-3">
+        <div class="flex items-start justify-between gap-2">
+          <div>
+            <p class="text-xs text-slate-500">Stato Protezione</p>
+            <p id="block-status" class="font-bold" style="color: var(--navy-trust);">Blocco attivo</p>
+            <p id="psd2-latency" class="text-[11px] text-slate-500 mt-0.5">Sincronizzazione PSD2 stabile • Latenza <span class="font-semibold">32ms</span></p>
+          </div>
+          <div class="pill" id="connection-pill">
+            <i class="fas fa-signal text-[11px]" style="color: var(--deep-emerald);"></i>
+            <span id="connection-label">Connessione banca: stabile</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 text-[13px]">
+          <div class="p-3 rounded-xl border border-slate-100 bg-slate-50">
+            <p class="font-semibold flex items-center gap-2" style="color: var(--navy-trust);">
+              <i class="fas fa-shield-alt text-[12px]" style="color: var(--deep-emerald);"></i>
+              Cooling-off 48h
+            </p>
+            <p class="text-[11px] text-slate-500 mt-1">Modifiche a limiti e percentuali diventano effettive dopo 48h per evitare decisioni impulsive.</p>
+          </div>
+          <div class="p-3 rounded-xl border border-slate-100 bg-slate-50">
+            <p class="font-semibold flex items-center gap-2" style="color: var(--navy-trust);">
+              <i class="fas fa-helmet-safety text-[12px]" style="color: var(--alert-orange);"></i>
+              Supporto immediato
+            </p>
+            <button onclick="openSupport()" class="mt-2 w-full py-2 rounded-lg text-xs font-semibold bg-white border border-slate-200 hover:bg-slate-100" aria-label="Apri risorse di aiuto">
+              Risorse terapia & aiuto
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-xs text-slate-500">Protezione finanziaria</p>
+            <p class="font-bold" style="color: var(--navy-trust);">Polizza parametrica attiva</p>
+            <p class="text-[11px] text-slate-500 mt-1">Indennizzo automatico se i blocchi non partono in tempo.</p>
+          </div>
+          <div class="pill" style="border-color: rgba(29,122,111,0.3); background: rgba(166,230,213,0.35);">
+            <i class="fas fa-file-shield text-[11px]" style="color: var(--deep-emerald);"></i>
+            <span class="text-[11px]">Cap € 1.000/mese</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-[13px]">
+          <div class="flex items-center gap-2 text-slate-600">
+            <i class="fas fa-robot text-[12px]" style="color: var(--warm-gold);"></i>
+            <span>Decisioni spiegate e auditabili</span>
+          </div>
+          <button onclick="openExplainability()" class="text-xs text-[var(--deep-emerald)] font-semibold">Vedi logica</button>
+        </div>
+
+        <hr class="border-slate-100">
+
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center gap-2 text-slate-600">
+            <i class="fas fa-building-columns text-[12px]" style="color: var(--info-blue);"></i>
+            <span>Area Partner B2B pronta per banche e istituti</span>
+          </div>
+          <button class="w-full py-2 rounded-lg text-xs font-semibold border border-slate-200 hover:bg-slate-50" aria-label="Apri area partner">
+            Richiedi integrazione PSD2 / API reportistica
+          </button>
         </div>
       </div>
 
@@ -265,185 +290,7 @@
                   Riduci ritmo
                 </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section aria-label="Transazioni recenti">
-        <div class="flex justify-between items-end mb-3">
-          <h3 class="font-bold text-lg" style="color: var(--navy-trust);">Transazioni Recenti</h3>
-          <span class="text-xs text-slate-500">Ultimi 7 giorni</span>
-        </div>
-
-        <div class="space-y-3" id="transaction-list"></div>
-      </section>
-    </section>
-
-    <section id="view-stats" class="px-5 py-4 space-y-6 hidden">
-      <h2 class="text-2xl font-bold" style="color: var(--navy-trust);">Patrimonio Proiettato</h2>
-
-      <div class="grid grid-cols-2 gap-3">
-        <div class="card p-4">
-          <p class="text-xs text-slate-500">Totale Versato</p>
-          <p class="text-xl font-bold" id="stats-total-display" style="color: var(--navy-trust);">€ 14.500</p>
-          <p class="text-[10px] text-slate-500 mt-1">Capitale puro accumulato tramite Protego.</p>
-        </div>
-        <div class="card p-4"
-             style="border-color: rgba(29,122,111,0.5); background: linear-gradient(135deg, rgba(166,230,213,0.35), rgba(29,122,111,0.12));">
-          <p class="text-xs" style="color: var(--deep-emerald);">Scenario Medio (+8% netto)</p>
-          <p class="text-xl font-bold" id="val-medio" style="color: var(--deep-emerald);">€ 19.800</p>
-          <p class="text-[10px] mt-1" id="val-medio-breakdown" style="color: var(--navy-trust); opacity:0.75;">
-            Capitale: € 14.500 • Rendimento stimato: € 5.300
-          </p>
-        </div>
-      </div>
-
-      <div class="card p-4">
-        <div class="flex justify-between mb-4 items-center">
-          <h3 class="font-bold text-sm" style="color: var(--navy-trust);">Scenari di Crescita</h3>
-          <span class="text-[10px] text-slate-500">*Fee di gestione 2% già incluse</span>
-        </div>
-
-        <div class="flex flex-wrap gap-3 mb-3 justify-center">
-          <div class="flex items-center gap-1">
-            <div class="w-2 h-2 rounded-full" style="background-color: var(--warm-gold);"></div>
-            <span class="text-[10px] text-slate-600">Min 4% netto</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <div class="w-2 h-2 rounded-full" style="background-color: var(--deep-emerald);"></div>
-            <span class="text-[10px] text-slate-600">Med 8% netto</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <div class="w-2 h-2 rounded-full" style="background-color: var(--sky-mint);"></div>
-            <span class="text-[10px] text-slate-600">Max 13% netto</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <div class="w-2 h-2 rounded-full" style="background-color: rgba(10,26,47,0.65);"></div>
-            <span class="text-[10px] text-slate-600">Versati</span>
-          </div>
-        </div>
-
-        <div class="relative h-64 w-full">
-          <canvas id="growthChart"></canvas>
-        </div>
-        <p class="text-[10px] text-center text-slate-500 mt-2">
-          Proiezione su 7 anni con interesse composto netto, a fini puramente illustrativi.
-        </p>
-      </div>
-    </section>
-
-    <section id="view-cards" class="px-5 py-4 space-y-6 hidden">
-      <h2 class="text-2xl font-bold" style="color: var(--navy-trust);">Wallet & Conti</h2>
-      <p class="text-slate-500 text-sm">
-        Metodi collegati per il prelievo automatico dal gioco verso Protego.
-      </p>
-
-      <div class="space-y-4 mt-2">
-        <div class="bank-card p-5 shadow-xl transform transition hover:scale-[1.02]">
-          <div class="flex justify-between items-start mb-8 relative z-10">
-            <i class="fas fa-wifi text-white/70 rotate-90"></i>
-            <span class="font-bold italic text-white/80">VISA</span>
-          </div>
-          <div class="text-lg font-mono tracking-widest text-white relative z-10 mb-2">
-            **** **** **** 4589
-          </div>
-          <div class="flex justify-between text-xs text-white/80 relative z-10">
-            <span>Mario Rossi</span>
-            <span>Exp 09/28</span>
-          </div>
-        </div>
-
-        <div class="card p-4 flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold italic"
-                 style="background-color:#003087;">
-              P
-            </div>
-            <div>
-              <p class="font-bold" style="color: var(--navy-trust);">PayPal</p>
-              <p class="text-xs text-slate-500">mario.rossi@email.it</p>
-            </div>
-          </div>
-          <div class="text-xs px-2 py-1 rounded"
-               style="background-color: rgba(166,230,213,0.55); color: var(--deep-emerald);">
-            Collegato
-          </div>
-        </div>
-
-        <div class="card p-4 flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full flex items-center justify-center"
-                 style="background-color: #E5EEF3; color: var(--navy-trust);">
-              <i class="fas fa-university"></i>
-            </div>
-            <div>
-              <p class="font-bold" style="color: var(--navy-trust);">Conto Direct</p>
-              <p class="text-xs text-slate-500">IT88 O 03... 8821</p>
-            </div>
-          </div>
-          <div class="text-xs px-2 py-1 rounded"
-               style="background-color: rgba(166,230,213,0.55); color: var(--deep-emerald);">
-            Collegato
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="view-profile" class="px-5 py-4 space-y-6 hidden">
-      <div class="flex items-center gap-4 mb-6">
-        <div class="w-16 h-16 rounded-full border-2 overflow-hidden flex items-center justify-center"
-             style="border-color: var(--deep-emerald); background-color:#E5EEF3;">
-          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Mario" alt="Avatar" class="w-full h-full">
-        </div>
-        <div>
-          <h2 class="text-xl font-bold" style="color: var(--navy-trust);">Mario Rossi</h2>
-          <p class="text-sm text-slate-500">ID: #88291 • Premium</p>
-        </div>
-      </div>
-
-      <div class="space-y-2">
-        <div class="card p-4 flex justify-between items-center cursor-pointer hover:bg-slate-50">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded flex items-center justify-center"
-                 style="background-color:#E5EEF3; color: var(--deep-emerald);">
-              <i class="fas fa-user"></i>
-            </div>
-            <span style="color: var(--navy-trust);">Dati Personali</span>
-          </div>
-          <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
-        </div>
-
-        <div class="card p-4 flex justify-between items-center cursor-pointer hover:bg-slate-50">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded flex items-center justify-center"
-                 style="background-color:#E5EEF3; color: var(--deep-emerald);">
-              <i class="fas fa-fingerprint"></i>
-            </div>
-            <span style="color: var(--navy-trust);">Sicurezza & FaceID</span>
-          </div>
-          <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
-        </div>
-
-        <div class="card p-4 flex justify-between items-center cursor-pointer hover:bg-slate-50">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded flex items-center justify-center"
-                 style="background-color:#E5EEF3; color: var(--deep-emerald);">
-              <i class="fas fa-sliders-h"></i>
-            </div>
-            <div class="flex flex-col">
-              <span style="color: var(--navy-trust);">Impostazioni % Risparmio</span>
-              <span id="profile-saving-rate"
-                    class="text-[11px] text-slate-500 mt-0.5">Attuale: 12%</span>
-            </div>
-          </div>
-          <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
-        </div>
-      </div>
-
-      <!-- RG Settings -->
-      <div class="card p-4 space-y-4">
-        <h3 class="font-bold text-sm" style="color: var(--navy-trust);">Protezione Gioco</h3>
+@@ -447,50 +570,56 @@
 
         <div>
           <label class="text-xs text-slate-500">Limite mensile di gioco (€)</label>
@@ -468,6 +315,12 @@
       </div>
     </section>
   </main>
+
+  <footer class="px-5 py-4 bg-white border-t border-[rgba(10,26,47,0.08)] text-[11px] text-slate-500 leading-relaxed">
+    <p class="font-semibold text-slate-700">Protego S.r.l. • CF/P.IVA 12345678901</p>
+    <p>Registro Unico Intermediari (RUI) – Sezione E: n. E000999999 • Vigilanza IVASS. In assenza di mandato diretto, Protego opera come segnalatore: nessuna consulenza personalizzata.</p>
+    <p class="mt-1">Informativa privacy GDPR per dati particolari disponibile nell'area documenti. Diritto di revoca del consenso in qualsiasi momento senza impatto sui servizi già prestati.</p>
+  </footer>
 
   <nav class="h-[80px] bg-white border-t border-[rgba(10,26,47,0.06)] flex justify-around items-center px-2 fixed bottom-0 w-full max-w-[450px] z-30">
     <button onclick="switchTab('home')" id="nav-home"
@@ -494,127 +347,7 @@
     </button>
 
     <button onclick="switchTab('cards')" id="nav-cards"
-            class="nav-item text-slate-400 flex flex-col items-center gap-1 p-2 w-16 transition">
-      <i class="fas fa-credit-card text-xl mb-1"></i>
-      <span class="text-[10px] font-semibold">Cards</span>
-    </button>
-    <button onclick="switchTab('profile')" id="nav-profile"
-            class="nav-item text-slate-400 flex flex-col items-center gap-1 p-2 w-16 transition">
-      <i class="fas fa-user text-xl mb-1"></i>
-      <span class="text-[10px] font-semibold">Profile</span>
-    </button>
-  </nav>
-
-  <!-- Saving Modal -->
-  <div id="saving-modal" class="fixed inset-0 bg-black/40 flex items-end justify-center z-40 hidden">
-    <div class="w-full max-w-[450px] bg-white rounded-t-2xl border-t border-[rgba(10,26,47,0.08)] p-5 space-y-4">
-      <div class="flex justify-between items-center">
-        <h3 class="text-lg font-bold" style="color: var(--navy-trust);">Imposta la protezione</h3>
-        <button onclick="closeSavingModal()" class="text-slate-400 text-sm">Chiudi</button>
-      </div>
-
-      <p class="text-xs text-slate-500">
-        Scegli la percentuale di ogni deposito che Protego sposta automaticamente nel tuo fondo sicuro.
-      </p>
-
-      <div class="flex gap-2">
-        <button type="button" class="saving-option flex-1 py-3 rounded-xl border text-sm"
-                data-rate="0.05"
-                style="border-color: rgba(10,26,47,0.15); color: var(--navy-trust); background-color:#F9FAFB;">
-          5% • Light
-        </button>
-        <button type="button" class="saving-option flex-1 py-3 rounded-xl border text-sm"
-                data-rate="0.12"
-                style="border-color: rgba(29,122,111,0.5); color: var(--navy-trust); background: linear-gradient(135deg, rgba(166,230,213,0.5), rgba(29,122,111,0.15));">
-          12% • Standard
-        </button>
-        <button type="button" class="saving-option flex-1 py-3 rounded-xl border text-sm"
-                data-rate="0.20"
-                style="border-color: rgba(196,167,111,0.7); color: var(--navy-trust); background-color:#FFF9ED;">
-          20% • Forte
-        </button>
-      </div>
-
-      <div class="flex justify-between items-center text-xs text-slate-500">
-        <span>Percentuale selezionata:</span>
-        <span id="selected-rate-label" class="font-semibold" style="color: var(--deep-emerald);">12%</span>
-      </div>
-
-      <button type="button" onclick="applySavingRate()"
-              class="w-full mt-2 py-3 rounded-xl text-sm font-semibold"
-              style="background: linear-gradient(90deg, var(--deep-emerald), var(--sky-mint)); color: var(--navy-trust);">
-        Applica e ricalcola storico
-      </button>
-    </div>
-  </div>
-
-  <!-- Nudge Modal -->
-  <div id="nudge-modal" class="fixed inset-0 bg-black/30 flex items-end justify-center z-50 hidden">
-    <div class="w-full max-w-[450px] bg-white rounded-t-2xl p-6 shadow-2xl border-t-4 animate-slide-up"
-         style="border-color: var(--alert-orange);">
-      <div class="flex gap-4">
-        <div class="w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center"
-             style="background-color: #FFF4E5; color: var(--alert-orange);">
-          <i class="fas fa-hourglass-half text-2xl"></i>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold text-slate-800" id="nudge-title">Pausa breve?</h3>
-          <p class="text-sm text-slate-600 mt-1 leading-relaxed" id="nudge-text">
-            Abbiamo notato un ritmo di gioco elevato. Fermarsi 2 minuti ora aiuta a riprendere controllo e decisioni più lucide.
-          </p>
-        </div>
-      </div>
-      <div class="flex gap-3 mt-6">
-        <button onclick="closeNudge()" class="flex-1 py-3 rounded-xl border border-slate-200 text-sm font-semibold text-slate-500">
-          Ignora
-        </button>
-        <button onclick="closeNudge(true)" class="flex-1 py-3 rounded-xl text-sm font-semibold text-white shadow-lg"
-                style="background-color: var(--alert-orange);">
-          Ok, faccio una pausa
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Auto-block Modal -->
-  <div id="block-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[60] hidden p-5">
-    <div class="w-full bg-white rounded-2xl p-6 shadow-2xl relative overflow-hidden animate-slide-up">
-      <div class="absolute top-0 left-0 w-full h-2" style="background-color: var(--danger-red);"></div>
-
-      <div class="text-center mb-4">
-        <div class="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4"
-             style="background-color: #FEF2F2; color: var(--danger-red);">
-          <i class="fas fa-hand-paper text-3xl"></i>
-        </div>
-        <h2 class="text-2xl font-bold text-slate-900">Deposito Bloccato</h2>
-        <p class="text-xs font-bold uppercase tracking-widest mt-1" style="color: var(--danger-red);">
-          Sopra la tua soglia di sicurezza
-        </p>
-      </div>
-
-      <div class="bg-slate-50 rounded-xl p-4 mb-4 border border-slate-100">
-        <div class="flex justify-between text-sm mb-1">
-          <span class="text-slate-500">Tentativo deposito:</span>
-          <span class="font-bold text-slate-800" id="block-attempt">€ 0,00</span>
-        </div>
-        <div class="flex justify-between text-sm mb-1">
-          <span class="text-slate-500">Limite mensile:</span>
-          <span class="font-bold text-slate-800" id="block-avg">€ 0,00</span>
-        </div>
-        <hr class="border-slate-200 my-2">
-        <div class="flex justify-between text-sm">
-          <span class="text-slate-500">Spesa prevista mese:</span>
-          <span class="font-bold" style="color: var(--danger-red);" id="block-projected">€ 0,00</span>
-        </div>
-      </div>
-
-      <p class="text-center text-sm text-slate-500 mb-6" id="block-desc">
-        Protego ha respinto il deposito verso il sito di gioco per rispettare le tue impostazioni di sicurezza.
-      </p>
-
-      <button onclick="closeBlock()" class="w-full py-3 rounded-xl text-sm font-bold text-white shadow-lg transition transform active:scale-95"
-              style="background-color: var(--danger-red);">
-        Ho capito
+@@ -618,87 +747,212 @@
       </button>
     </div>
   </div>
@@ -640,6 +373,97 @@
     </div>
   </div>
 
+  <!-- Explainability Modal -->
+  <div id="explain-modal" class="fixed inset-0 bg-black/40 hidden z-[70]">
+    <div class="absolute inset-0" onclick="closeExplainability()"></div>
+    <div class="absolute bottom-0 left-0 right-0 mx-auto w-full max-w-[450px] bg-white rounded-t-2xl border-t border-[rgba(10,26,47,0.08)] p-5 space-y-3 animate-slide-up shadow-2xl">
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg font-bold" style="color: var(--navy-trust);">Come decide Protego</h3>
+        <button onclick="closeExplainability()" class="text-sm text-slate-400">Chiudi</button>
+      </div>
+      <ul class="list-disc pl-4 text-sm text-slate-600 space-y-1">
+        <li>Il rate automatico è calcolato sul volume netto dei depositi monitorati via PSD2.</li>
+        <li>Se i volumi superano il limite mensile impostato, scatta l'autoblocco immediato (con log tracciato) e l'investimento viene sospeso.</li>
+        <li>Ogni modifica a limiti o percentuali entra in vigore dopo 48h (cooling-off) per ridurre decisioni impulsive.</li>
+        <li>I dati e le decisioni sono auditabili: log firmati e visibili nella sezione notifiche.</li>
+      </ul>
+      <p class="text-[11px] text-slate-500">Trasparenza AI Act-ready: metrica, soglie e fallback manuali sono sempre esposti all'utente.</p>
+    </div>
+  </div>
+
+  <!-- Support / Therapy Modal -->
+  <div id="support-modal" class="fixed inset-0 bg-black/40 hidden z-[70]">
+    <div class="absolute inset-0" onclick="closeSupport()"></div>
+    <div class="absolute bottom-0 left-0 right-0 mx-auto w-full max-w-[450px] bg-white rounded-t-2xl border-t border-[rgba(10,26,47,0.08)] p-5 space-y-4 animate-slide-up shadow-2xl">
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg font-bold" style="color: var(--navy-trust);">Aiuto immediato</h3>
+        <button onclick="closeSupport()" class="text-sm text-slate-400">Chiudi</button>
+      </div>
+      <div class="space-y-2 text-sm text-slate-600">
+        <div class="flex items-center gap-2 p-3 rounded-xl bg-slate-50 border border-slate-100">
+          <i class="fas fa-phone-volume text-[14px]" style="color: var(--deep-emerald);"></i>
+          <div>
+            <p class="font-semibold" style="color: var(--navy-trust);">Numero verde Gioco d'Azzardo</p>
+            <a href="tel:800558822" class="text-[13px] text-[var(--deep-emerald)] font-semibold">800 558 822</a>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 p-3 rounded-xl bg-slate-50 border border-slate-100">
+          <i class="fas fa-user-md text-[14px]" style="color: var(--warm-gold);"></i>
+          <div>
+            <p class="font-semibold" style="color: var(--navy-trust);">Prenota colloquio con terapeuta</p>
+            <p class="text-[12px] text-slate-500">Accesso a rete di specialisti certificati. Copertura spese possibile via Protego.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 p-3 rounded-xl bg-slate-50 border border-slate-100">
+          <i class="fas fa-shield-heart text-[14px]" style="color: var(--danger-red);"></i>
+          <div>
+            <p class="font-semibold" style="color: var(--navy-trust);">Pulsante di emergenza</p>
+            <button class="text-[13px] text-white font-semibold px-3 py-1.5 rounded-lg" style="background-color: var(--danger-red);" onclick="triggerEmergencyBlock()">Attiva blocco totale ora</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GDPR Consent Banner -->
+  <div id="consent-banner" class="fixed left-0 right-0 mx-auto max-w-[450px] bottom-20 z-[80] hidden">
+    <div class="m-3 p-4 rounded-2xl shadow-2xl border border-[rgba(10,26,47,0.08)] bg-white">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: rgba(15,108,189,0.1); color: var(--info-blue);">
+          <i class="fas fa-user-shield"></i>
+        </div>
+        <div class="flex-1 space-y-2">
+          <div class="flex justify-between items-start gap-2">
+            <div>
+              <p class="font-bold text-sm" style="color: var(--navy-trust);">Consenso esplicito GDPR</p>
+              <p class="text-xs text-slate-600">Trattiamo dati particolari (dipendenza e salute) per proteggerti. Conferma per attivare i blocchi.</p>
+            </div>
+            <button onclick="closeConsentBanner()" class="text-slate-400 text-sm">Chiudi</button>
+          </div>
+          <div class="space-y-2 text-xs text-slate-600">
+            <label class="flex items-start gap-2">
+              <input id="consent-monitoring" type="checkbox" class="mt-0.5" checked>
+              <span>Monitoraggio transazioni e calcolo soglie (necessario).</span>
+            </label>
+            <label class="flex items-start gap-2">
+              <input id="consent-health" type="checkbox" class="mt-0.5">
+              <span>Dati particolari su dipendenza/benessere per suggerimenti personalizzati.</span>
+            </label>
+            <label class="flex items-start gap-2">
+              <input id="consent-marketing" type="checkbox" class="mt-0.5">
+              <span>Comunicazioni non essenziali (facoltativo).</span>
+            </label>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="acceptConsents()" class="flex-1 py-2 rounded-lg text-sm font-semibold text-white" style="background: linear-gradient(90deg, var(--deep-emerald), var(--sky-mint));">Confermo in modo esplicito</button>
+            <button onclick="saveConsentPreferences()" class="px-3 py-2 rounded-lg text-xs font-semibold border border-slate-200">Solo essenziali</button>
+          </div>
+          <p class="text-[10px] text-slate-400">Puoi revocare o modificare i consensi da Profilo &gt; Privacy. Informativa completa in documenti legali.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -652,6 +476,8 @@
       maxGross: 0.15
     },
     defaultSavingRate: 0.12,
+    coolingOffMs: 48 * 60 * 60 * 1000,   // 48h real window
+    coolingOffDemoMs: 15 * 1000,         // demo timer to mostrare la frizione
 
     responsibleGaming: {
       monthlyLimit: 1200,          // € – modificabile da Profile
@@ -665,18 +491,50 @@
     }
   };
 
+  const STORAGE_KEYS = {
+    consent: 'protego-consent',
+    cooling: 'protego-cooling',
+    savingRate: 'protego-saving-rate'
+  };
+
   // Ricostruiamo il volume di gioco "Storico" basandoci sul fatto che 14.500 sono il 12%.
   const rawHistory = [2000, 4100, 6200, 8300, 10400, 12500, 14500];
   const baseVolumeHistory = rawHistory.map(val => val / CONFIG.defaultSavingRate);
 
   let currentSavingRate = CONFIG.defaultSavingRate;
   let pendingSavingRate = CONFIG.defaultSavingRate;
+  const savingChange = {
+    pendingRate: null,
+    requestedAt: null,
+    deadline: null,
+    demoDeadline: null,
+    timer: null,
+    countdown: null
+  };
 
   // Format currency
   const fmtEur = (val) => '€ ' + Math.floor(val).toLocaleString('it-IT');
 
   /* ===== Notifications System ===== */
   const NOTIFS = { items: [], unread: 0 };
+  const CONSENT = { monitoring: true, health: false, marketing: false, accepted: false };
+
+  function safeStorageGet(key, fallback=null) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function safeStorageSet(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+
+  function safeStorageRemove(key) {
+    try { localStorage.removeItem(key); } catch (e) {}
+  }
 
   function fmtDateTime(d = new Date()) {
     return d.toLocaleString('it-IT', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
@@ -702,58 +560,7 @@
       info: 'var(--navy-trust)'
     };
 
-    const item = {
-      id: 'n_' + Math.random().toString(16).slice(2),
-      ts: new Date(),
-      type,
-      title,
-      message,
-      icon: iconByType[type] || iconByType.info,
-      bg: bgByType[type] || bgByType.info,
-      iconColor: iconColorByType[type] || iconColorByType.info
-    };
-
-    NOTIFS.items.unshift(item);
-    NOTIFS.unread += 1;
-    updateNotifDot();
-    renderNotifications();
-  }
-
-  function updateNotifDot() {
-    const dot = document.getElementById('notif-dot');
-    if (!dot) return;
-    dot.style.display = NOTIFS.unread > 0 ? 'block' : 'none';
-  }
-
-  function renderNotifications() {
-    const list = document.getElementById('notifications-list');
-    if (!list) return;
-
-    if (NOTIFS.items.length === 0) {
-      list.innerHTML = `
-        <div class="card p-4 text-center">
-          <p class="text-sm font-semibold" style="color: var(--navy-trust);">Nessuna notifica</p>
-          <p class="text-xs text-slate-500 mt-1">Quando Protego rileva eventi, li vedrai qui.</p>
-        </div>
-      `;
-      return;
-    }
-
-    list.innerHTML = NOTIFS.items.map(n => `
-      <div class="card p-3 flex gap-3 items-start">
-        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-             style="background:${n.bg}; color:${n.iconColor};">
-          <i class="fas ${n.icon}"></i>
-        </div>
-        <div class="flex-1">
-          <div class="flex justify-between gap-2">
-            <p class="font-bold text-sm" style="color: var(--navy-trust);">${n.title}</p>
-            <p class="text-[10px] text-slate-400">${fmtDateTime(n.ts)}</p>
-          </div>
-          <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">${n.message}</p>
-        </div>
-      </div>
-    `).join('');
+@@ -757,50 +1011,116 @@
   }
 
   function openNotifications() {
@@ -777,6 +584,72 @@
     NOTIFS.unread = 0;
     updateNotifDot();
     renderNotifications();
+  }
+
+  /* ===== GDPR Consent ===== */
+  function showConsentBanner() {
+    const banner = document.getElementById('consent-banner');
+    if (!banner) return;
+    if (CONSENT.accepted) return;
+    banner.classList.remove('hidden');
+    syncConsentInputs();
+  }
+
+  function closeConsentBanner() {
+    const banner = document.getElementById('consent-banner');
+    if (banner) banner.classList.add('hidden');
+  }
+
+  function loadConsentFromStorage() {
+    const saved = safeStorageGet(STORAGE_KEYS.consent);
+    if (saved) {
+      CONSENT.monitoring = saved.monitoring ?? CONSENT.monitoring;
+      CONSENT.health = saved.health ?? CONSENT.health;
+      CONSENT.marketing = saved.marketing ?? CONSENT.marketing;
+      CONSENT.accepted = saved.accepted ?? CONSENT.accepted;
+    }
+  }
+
+  function persistConsent() {
+    safeStorageSet(STORAGE_KEYS.consent, CONSENT);
+  }
+
+  function syncConsentInputs() {
+    const cMon = document.getElementById('consent-monitoring');
+    const cHealth = document.getElementById('consent-health');
+    const cMkt = document.getElementById('consent-marketing');
+    if (cMon) cMon.checked = CONSENT.monitoring;
+    if (cHealth) cHealth.checked = CONSENT.health;
+    if (cMkt) cMkt.checked = CONSENT.marketing;
+  }
+
+  function acceptConsents() {
+    CONSENT.monitoring = true;
+    CONSENT.health = true;
+    CONSENT.marketing = document.getElementById('consent-marketing')?.checked || false;
+    CONSENT.accepted = true;
+    persistConsent();
+    closeConsentBanner();
+
+    addNotification({
+      type: 'success',
+      title: 'Consenso registrato',
+      message: 'Hai fornito consenso esplicito al trattamento dei dati particolari. Blocchi e protezioni restano attivi.'
+    });
+  }
+
+  function saveConsentPreferences() {
+    CONSENT.monitoring = document.getElementById('consent-monitoring')?.checked !== false;
+    CONSENT.health = false;
+    CONSENT.marketing = false;
+    CONSENT.accepted = CONSENT.monitoring;
+    persistConsent();
+    closeConsentBanner();
+    addNotification({
+      type: 'info',
+      title: 'Consenso essenziale',
+      message: 'Stai usando solo i consensi minimi. Puoi attivare le funzioni avanzate salute in seguito.'
+    });
   }
 
   /* ===== Navigation ===== */
@@ -804,64 +677,7 @@
 
     const newLimit = parseFloat(limitInput.value);
     const newMult = parseFloat(thresholdSelect.value);
-
-    if (!isNaN(newLimit)) CONFIG.responsibleGaming.monthlyLimit = newLimit;
-    if (!isNaN(newMult)) CONFIG.responsibleGaming.blockMultiplier = newMult;
-
-    // Update home pill
-    const homeLimit = document.getElementById('home-monthly-limit');
-    if (homeLimit) homeLimit.textContent = fmtEur(CONFIG.responsibleGaming.monthlyLimit);
-
-    showAlertCenter({
-      type: 'info',
-      title: 'Impostazioni salvate',
-      text: 'Protego applicherà i nuovi limiti a partire da ora.',
-      cta: 'Ok'
-    });
-
-    addNotification({
-      type: 'info',
-      title: 'Impostazioni aggiornate',
-      message: `Limite mensile: ${fmtEur(CONFIG.responsibleGaming.monthlyLimit)} • Soglia autoblocco: ${Math.round(CONFIG.responsibleGaming.blockMultiplier*100)}%`
-    });
-
-    // refresh transactions so the demo shows effect
-    generateTransactions();
-  }
-
-  /* ===== Dashboard Update ===== */
-  function updateDashboard(rate) {
-    const simulatedDeposits = baseVolumeHistory.map(vol => vol * rate);
-    const currentTotalSaved = simulatedDeposits[simulatedDeposits.length - 1];
-
-    const homeDisplay = document.getElementById('home-total-display');
-    if (homeDisplay) homeDisplay.textContent = fmtEur(currentTotalSaved);
-
-    const perc = Math.round(currentTotalSaved / CONFIG.goalValue * 100);
-    const bar = document.getElementById('goal-bar');
-    const label = document.getElementById('goal-percentage');
-    if (bar) bar.style.width = Math.min(perc, 100) + '%';
-    if (label) label.textContent = perc + '%';
-
-    const statsDisplay = document.getElementById('stats-total-display');
-    if (statsDisplay) statsDisplay.textContent = fmtEur(currentTotalSaved);
-
-    const minNet = CONFIG.scenarios.minGross - CONFIG.fee;
-    const medNet = CONFIG.scenarios.medGross - CONFIG.fee;
-    const maxNet = CONFIG.scenarios.maxGross - CONFIG.fee;
-
-    const minData = calculateGrowth(simulatedDeposits, minNet);
-    const medData = calculateGrowth(simulatedDeposits, medNet);
-    const maxData = calculateGrowth(simulatedDeposits, maxNet);
-
-    const lastMed = medData[medData.length - 1];
-    const rendimento = lastMed - currentTotalSaved;
-
-    document.getElementById('val-medio').innerText = fmtEur(lastMed);
-    document.getElementById('val-medio-breakdown').innerText =
-      `Capitale: ${fmtEur(currentTotalSaved)} • Rendimento stimato: ${fmtEur(rendimento)}`;
-
-    if (window.myChart) {
+@@ -865,86 +1185,112 @@
       window.myChart.data.datasets[0].data = maxData;
       window.myChart.data.datasets[1].data = medData;
       window.myChart.data.datasets[2].data = minData;
@@ -885,6 +701,12 @@
     monthSpendSim: 0,
     lastNudgeAt: 0,
     blockedCount: 0
+  };
+
+  const SYSTEM_STATUS = {
+    latencyMs: 32,
+    connection: 'stabile',
+    blockState: 'attivo'
   };
 
   /* ===== Alert Center helpers ===== */
@@ -923,6 +745,26 @@
     if (box) box.classList.add('hidden');
   }
 
+  /* ===== System status helpers ===== */
+  function updateBlockStatus({ blocked=false, latency=32, connection='stabile' } = {}) {
+    SYSTEM_STATUS.latencyMs = latency;
+    SYSTEM_STATUS.connection = connection;
+    SYSTEM_STATUS.blockState = blocked ? 'Blocco attivo' : 'Protezione OK';
+
+    const blockStatus = document.getElementById('block-status');
+    const latencyEl = document.getElementById('psd2-latency');
+    const pill = document.getElementById('connection-pill');
+    const label = document.getElementById('connection-label');
+
+    if (blockStatus) blockStatus.textContent = SYSTEM_STATUS.blockState;
+    if (latencyEl) latencyEl.innerHTML = `Sincronizzazione PSD2 ${connection} • Latenza <span class="font-semibold">${latency}ms</span>`;
+    if (pill) {
+      pill.style.borderColor = blocked ? 'rgba(214,64,69,0.3)' : 'rgba(29,122,111,0.35)';
+      pill.style.backgroundColor = blocked ? '#FEF2F2' : 'rgba(166,230,213,0.25)';
+    }
+    if (label) label.textContent = `Connessione banca: ${connection}`;
+  }
+
   /* ===== Nudge modal helpers ===== */
   function openNudge({title, text} = {}) {
     const now = Date.now();
@@ -948,50 +790,7 @@
   }
 
   function closeNudge(setSofter=false) {
-    const m = document.getElementById('nudge-modal');
-    if (!m) return;
-    m.classList.add('hidden');
-    m.classList.remove('flex');
-
-    if (setSofter) {
-      RG.monthSpendSim = Math.max(0, RG.monthSpendSim * 0.92);
-      showAlertCenter({
-        type: 'info',
-        title: 'Ottimo.',
-        text: 'Hai preso una pausa. Protego continuerà a monitorare e aiutarti a restare nei tuoi limiti.',
-        cta: 'Continua'
-      });
-
-      addNotification({
-        type: 'success',
-        title: 'Pausa confermata',
-        message: 'Hai accettato il reminder. Continuiamo a monitorare i tuoi limiti.'
-      });
-    }
-  }
-
-  /* ===== Auto-block modal helpers ===== */
-  function openBlock({attempt=0, limit=0, projected=0, siteName='sito di gioco'} = {}) {
-    const m = document.getElementById('block-modal');
-    if (!m) return;
-
-    const a = document.getElementById('block-attempt');
-    const av = document.getElementById('block-avg');
-    const pr = document.getElementById('block-projected');
-    const desc = document.getElementById('block-desc');
-
-    if (a) a.textContent = fmtEur(attempt);
-    if (av) av.textContent = fmtEur(limit);
-    if (pr) pr.textContent = fmtEur(projected);
-    if (desc) desc.innerHTML = `Protego ha respinto il deposito verso <strong>${siteName}</strong> per rispettare le tue impostazioni di sicurezza.`;
-
-    m.classList.remove('hidden');
-    m.classList.add('flex');
-  }
-
-  function closeBlock() {
-    const m = document.getElementById('block-modal');
-    if (!m) return;
+@@ -995,50 +1341,53 @@
     m.classList.add('hidden');
     m.classList.remove('flex');
   }
@@ -1016,6 +815,9 @@
     const container = document.getElementById('transaction-list');
     let html = '';
     const today = new Date();
+
+    const latency = Math.floor(Math.random() * 90) + 30; // 30-120ms
+    const connection = latency > 110 ? 'instabile' : 'stabile';
 
     RG.monthSpendSim = 0;
     RG.blockedCount = 0;
@@ -1042,37 +844,7 @@
 
         if (RG.blockedCount === 1) {
           openBlock({
-            attempt: rawAmount,
-            limit: blockThreshold,
-            projected: projectedSpend,
-            siteName: site.name
-          });
-        }
-
-        showAlertCenter({
-          type: 'danger',
-          title: 'Autoblocco attivo',
-          text: 'Hai superato la tua soglia di sicurezza. Protego respinge automaticamente ulteriori depositi verso siti di gioco.',
-          cta: 'Capito'
-        });
-
-        addNotification({
-          type: 'danger',
-          title: 'Deposito bloccato',
-          message: `Respinto su ${site.name}: superamento soglia di sicurezza. Tentativo: € ${amount}.`
-        });
-      } else {
-        RG.monthSpendSim = projectedSpend;
-
-        // success notification
-        addNotification({
-          type: 'success',
-          title: 'Deposito andato a buon fine',
-          message: `Operazione approvata su ${site.name}: € ${amount}. Protego ha accantonato € ${invested}.`
-        });
-      }
-
-      html += `
+@@ -1076,50 +1425,51 @@
         <div class="card p-3 flex justify-between items-center ${isBlocked ? 'opacity-60' : ''}">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${site.class}">
@@ -1098,6 +870,7 @@
       `;
     }
 
+    updateBlockStatus({ blocked: RG.blockedCount > 0, latency, connection });
     container.innerHTML = html;
 
     // Nudges after generation
@@ -1123,46 +896,7 @@
 
   const years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024'];
 
-  function calculateGrowth(deposits, netRate) {
-    let result = [];
-    let currentVal = 0;
-    for (let i = 0; i < deposits.length; i++) {
-      let yearlyDeposit = deposits[i] - (i > 0 ? deposits[i - 1] : 0);
-      currentVal = (currentVal + yearlyDeposit) * (1 + netRate);
-      result.push(currentVal);
-    }
-    return result;
-  }
-
-  function initChart(maxData, medData, minData, depositData) {
-    const ctx = document.getElementById('growthChart').getContext('2d');
-    window.myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: years,
-        datasets: [
-          { label: 'Max (13% netto)', data: maxData, borderColor: '#C4A76F', backgroundColor: 'rgba(196,167,111,0)', borderWidth: 2, borderDash: [2,2], pointRadius: 0, tension: 0.4 },
-          { label: 'Med (8% netto)', data: medData, borderColor: '#1D7A6F', backgroundColor: 'rgba(166,230,213,0.35)', borderWidth: 3, fill: true, tension: 0.4 },
-          { label: 'Min (4% netto)', data: minData, borderColor: '#A6E6D5', backgroundColor: 'rgba(166,230,213,0)', borderWidth: 2, borderDash: [2,2], pointRadius: 0, tension: 0.4 },
-          { label: 'Versati', data: depositData, borderColor: 'rgba(10,26,47,0.7)', borderDash: [5,5], borderWidth: 1, pointRadius: 2, fill: false, tension: 0.2 }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: {display:false}, tooltip: {mode:'index', intersect:false} },
-        scales: {
-          x: { grid: {display:false}, ticks: { color:'#6B7280', font:{size:10} } },
-          y: { grid: {color:'#E5E7EB'}, ticks: { color:'#6B7280', font:{size:10}, callback: v => '€' + (v/1000) + 'k' } }
-        },
-        interaction: { mode:'nearest', axis:'x', intersect:false }
-      }
-    });
-  }
-
-  /* ===== Saving Modal logic ===== */
-  function openSavingModal() {
-    const modal = document.getElementById('saving-modal');
+@@ -1166,90 +1516,277 @@
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     pendingSavingRate = currentSavingRate;
@@ -1188,6 +922,18 @@
     });
   }
 
+  function loadSavingRateFromStorage() {
+    const saved = safeStorageGet(STORAGE_KEYS.savingRate);
+    if (typeof saved === 'number' && !isNaN(saved)) {
+      currentSavingRate = saved;
+      pendingSavingRate = saved;
+    }
+    const percDisplay = Math.round(currentSavingRate * 100) + '%';
+    setSavingLabel(percDisplay);
+    highlightSelectedSavingOption(currentSavingRate);
+    updateSelectedRateLabel();
+  }
+
   function updateSelectedRateLabel() {
     const perc = Math.round(pendingSavingRate * 100);
     const label = document.getElementById('selected-rate-label');
@@ -1196,23 +942,165 @@
 
   function applySavingRate() {
     currentSavingRate = pendingSavingRate;
+  function formatDuration(ms) {
+    const sec = Math.max(0, Math.floor(ms / 1000));
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = sec % 60;
+    if (h > 0) return `${h}h ${m}m`;
+    if (m > 0) return `${m}m ${s}s`;
+    return `${s}s`;
+  }
 
     const percDisplay = Math.round(currentSavingRate * 100) + '%';
+  function setSavingLabel(percDisplay) {
     const savingRateLabel = document.getElementById('saving-rate-label');
     if (savingRateLabel) {
       savingRateLabel.innerHTML = 'Investimento autom.: <strong>' + percDisplay + '</strong> sui volumi';
+      savingRateLabel.innerHTML = `Investimento autom.: <strong>${percDisplay}</strong> sui volumi <button onclick="openExplainability()" class="text-[10px] px-2 py-1 rounded-full border border-white/50 bg-white/70 text-slate-600 hover:text-slate-900" aria-label="Spiega come funziona">Come funziona</button>`;
     }
+  }
+
+  function persistSavingRate(rate) {
+    safeStorageSet(STORAGE_KEYS.savingRate, rate);
+  }
+
+  function showCoolingBanner() {
+    const banner = document.getElementById('cooling-banner');
+    const countdown = document.getElementById('cooling-countdown');
+    if (banner) banner.classList.remove('hidden');
+    if (countdown && savingChange.demoDeadline) {
+      countdown.textContent = formatDuration(savingChange.demoDeadline - new Date());
+    }
+  }
+
+  function clearCoolingTimers() {
+    if (savingChange.timer) clearTimeout(savingChange.timer);
+    if (savingChange.countdown) clearInterval(savingChange.countdown);
+    savingChange.timer = null;
+    savingChange.countdown = null;
+  }
+
+  function persistCoolingState() {
+    if (savingChange.pendingRate === null) {
+      safeStorageRemove(STORAGE_KEYS.cooling);
+      return;
+    }
+    safeStorageSet(STORAGE_KEYS.cooling, {
+      pendingRate: savingChange.pendingRate,
+      requestedAt: savingChange.requestedAt,
+      deadline: savingChange.deadline,
+      demoDeadline: savingChange.demoDeadline
+    });
+  }
+
+  function loadCoolingState() {
+    const saved = safeStorageGet(STORAGE_KEYS.cooling);
+    if (!saved) return;
+    const now = new Date();
+    const demoDeadline = new Date(saved.demoDeadline);
+    if (demoDeadline <= now) {
+      safeStorageRemove(STORAGE_KEYS.cooling);
+      return;
+    }
+
+    savingChange.pendingRate = saved.pendingRate;
+    savingChange.requestedAt = saved.requestedAt ? new Date(saved.requestedAt) : now;
+    savingChange.deadline = saved.deadline ? new Date(saved.deadline) : new Date(now.getTime() + CONFIG.coolingOffMs);
+    savingChange.demoDeadline = demoDeadline;
+
+    clearCoolingTimers();
+    savingChange.timer = setTimeout(() => finalizeSavingRate(savingChange.pendingRate), savingChange.demoDeadline - now);
+    startCoolingCountdown();
+    showCoolingBanner();
+  }
+
+  function finalizeSavingRate(rate) {
+    clearCoolingTimers();
+    savingChange.pendingRate = null;
+    savingChange.requestedAt = null;
+    savingChange.deadline = null;
+    savingChange.demoDeadline = null;
+    persistCoolingState();
+
+    currentSavingRate = rate;
+    const percDisplay = Math.round(currentSavingRate * 100) + '%';
+    setSavingLabel(percDisplay);
     const profileSaving = document.getElementById('profile-saving-rate');
     if (profileSaving) profileSaving.textContent = 'Attuale: ' + percDisplay;
+    persistSavingRate(currentSavingRate);
+
+    const banner = document.getElementById('cooling-banner');
+    if (banner) banner.classList.add('hidden');
 
     updateDashboard(currentSavingRate);
     generateTransactions();
+
+    addNotification({
+      type: 'success',
+      title: 'Cambio attivo',
+      message: `La nuova percentuale ${percDisplay} è ora applicata dopo il periodo di cooling-off.`
+    });
+  }
+
+  function startCoolingCountdown() {
+    const countdown = document.getElementById('cooling-countdown');
+    if (!countdown) return;
+    savingChange.countdown = setInterval(() => {
+      const remaining = savingChange.demoDeadline - new Date();
+      countdown.textContent = formatDuration(remaining);
+      if (remaining <= 0) clearCoolingTimers();
+    }, 500);
+  }
+
+  function applySavingRate() {
+    if (!CONSENT.monitoring) {
+      showConsentBanner();
+      addNotification({
+        type: 'warning',
+        title: 'Richiede consenso',
+        message: 'Accetta il monitoraggio minimo GDPR per attivare modifiche di protezione.'
+      });
+      return;
+    }
+
+    savingChange.pendingRate = pendingSavingRate;
+    savingChange.requestedAt = new Date();
+    savingChange.deadline = new Date(Date.now() + CONFIG.coolingOffMs);
+    savingChange.demoDeadline = new Date(Date.now() + CONFIG.coolingOffDemoMs);
+
+    clearCoolingTimers();
+    savingChange.timer = setTimeout(() => finalizeSavingRate(savingChange.pendingRate), CONFIG.coolingOffDemoMs);
+    startCoolingCountdown();
+    showCoolingBanner();
     closeSavingModal();
+    persistCoolingState();
 
     addNotification({
       type: 'info',
       title: 'Percentuale aggiornata',
       message: `Nuovo rate: ${percDisplay}. Storico ricalcolato.`
+      title: 'Cambio programmato',
+      message: 'La modifica sarà attiva dopo la finestra di 48h (demo accelerata).'
+    });
+  }
+
+  function cancelCoolingChange() {
+    if (savingChange.pendingRate === null) return;
+    clearCoolingTimers();
+    savingChange.pendingRate = null;
+    savingChange.requestedAt = null;
+    savingChange.deadline = null;
+    savingChange.demoDeadline = null;
+    persistCoolingState();
+
+    const banner = document.getElementById('cooling-banner');
+    if (banner) banner.classList.add('hidden');
+
+    addNotification({
+      type: 'info',
+      title: 'Cambio annullato',
+      message: 'Hai annullato la modifica programmata. Le impostazioni restano invariate.'
     });
   }
 
@@ -1240,9 +1128,48 @@
     }
   });
 
+  /* ===== Modals & helpers ===== */
+  function openExplainability() {
+    const modal = document.getElementById('explain-modal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  function closeExplainability() {
+    const modal = document.getElementById('explain-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function openSupport() {
+    const modal = document.getElementById('support-modal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  function closeSupport() {
+    const modal = document.getElementById('support-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function triggerEmergencyBlock() {
+    RG.blockedCount += 1;
+    showAlertCenter({
+      type: 'danger',
+      title: 'Blocco emergenza attivato',
+      text: 'Abbiamo sospeso tutte le transazioni e notificato il supporto. Puoi disattivare solo dopo 48h di raffreddamento.',
+      cta: 'Capito'
+    });
+    openBlock({ attempt: 0, limit: CONFIG.responsibleGaming.monthlyLimit, projected: RG.monthSpendSim, siteName: 'Tutti i siti' });
+    updateBlockStatus({ blocked: true, latency: SYSTEM_STATUS.latencyMs, connection: SYSTEM_STATUS.connection });
+    addNotification({ type: 'danger', title: 'Blocco emergenza', message: 'Protezione totale attiva. Contatta il supporto per assistenza.' });
+  }
+
   // Init
+  loadConsentFromStorage();
+  loadSavingRateFromStorage();
+  loadCoolingState();
   updateDashboard(currentSavingRate);
   generateTransactions();
+  updateBlockStatus({ blocked: false, latency: SYSTEM_STATUS.latencyMs, connection: SYSTEM_STATUS.connection });
+  showConsentBanner();
 
   // Seed notifications
   addNotification({
