@@ -25,6 +25,7 @@
       --alert-orange: #E8985E;
 
       --info-blue: #0F6CBD;
+      --lavender: #EEF2FF;
     }
 
     body {
@@ -51,6 +52,7 @@
       flex: 1;
       overflow-y: auto;
       padding-bottom: 80px;
+      padding-bottom: 140px; /* extra space so footer never clashes with nav */
     }
 
     .card {
@@ -126,112 +128,10 @@
       height: 200px;
       background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
     }
-
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-
-    /* ===== LOGO PROTEGO ===== */
-    .protego-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: 'Nunito', sans-serif;
-      cursor: default;
-    }
-    .logo-icon {
-      position: relative;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .icon-shield {
-      position: absolute;
-      bottom: 0;
-      width: 44px;
-      height: 24px;
-      border-bottom-left-radius: 50px;
-      border-bottom-right-radius: 50px;
-      background-color: var(--navy-trust);
-      z-index: 1;
-    }
-    .icon-sphere {
-      position: absolute;
-      top: 8px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--sky-mint) 0%, var(--deep-emerald) 100%);
-      z-index: 2;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-    .icon-sphere::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 60%);
-    }
-    .icon-star {
-      position: absolute;
-      top: 0;
-      left: 12px;
-      width: 14px;
-      height: 14px;
-      background-color: var(--warm-gold);
-      clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
-      z-index: 3;
-    }
-    .logo-text {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--navy-trust);
-      letter-spacing: -0.02em;
-      line-height: 1;
-    }
-
-    /* ===== animations ===== */
-    @keyframes slideUp {
-      from { transform: translateY(100%); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    .animate-slide-up {
-      animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @media (max-width: 600px) {
-      .logo-icon { transform: scale(0.8); }
-      .logo-text { font-size: 1.6rem; }
-    }
-  </style>
-</head>
-
-<body>
-<div class="app-container">
-
-  <header class="p-5 flex flex-col gap-2 bg-white/95 backdrop-blur sticky top-0 z-20 border-b border-[rgba(10,26,47,0.06)]">
-    <div class="flex justify-between items-center">
-      <div class="protego-logo">
-        <div class="logo-icon">
-          <div class="icon-star"></div>
-          <div class="icon-shield"></div>
-          <div class="icon-sphere"></div>
-        </div>
-        <div class="logo-text">Protego</div>
-      </div>
-
-      <div class="flex items-center gap-3">
-        <div id="online-badge"
-             class="px-2 py-1 rounded text-xs border flex items-center gap-1"
-             style="background-color: rgba(166,230,213,0.25); border-color: rgba(29,122,111,0.35); color: var(--deep-emerald);">
-          <i class="fas fa-signal text-[10px]"></i>
-          <span>Online</span>
+@@ -192,76 +234,158 @@
         </div>
 
+        <!-- UPDATED: bell opens notification center -->
         <button class="relative" onclick="openNotifications()" aria-label="Notifiche">
           <i class="fas fa-bell text-slate-400"></i>
           <span id="notif-dot"
@@ -254,6 +154,7 @@
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-2"
              style="background: linear-gradient(90deg, rgba(166,230,213,0.35) 0%, rgba(29,122,111,0.20) 100%); border-color: rgba(29,122,111,0.45);">
           <i class="fas fa-magic text-xs" style="color: var(--warm-gold);"></i>
+          <span id="saving-rate-label" class="text-xs" style="color: var(--navy-trust);">
           <span id="saving-rate-label" class="text-xs flex items-center gap-2" style="color: var(--navy-trust);">
             Investimento autom.: <strong>12%</strong> sui volumi
             <button onclick="openExplainability()" class="text-[10px] px-2 py-1 rounded-full border border-white/50 bg-white/70 text-slate-600 hover:text-slate-900" aria-label="Spiega come funziona">
@@ -286,6 +187,10 @@
           <div class="flex justify-between text-[10px] text-slate-500 mb-1">
             <span>Obiettivo: Fondo Sicurezza € 20.000</span>
             <span id="goal-percentage">73%</span>
+      <div class="mt-5 w-full max-w-xs mx-auto text-left">
+        <div class="flex justify-between text-[10px] text-slate-500 mb-1">
+          <span>Obiettivo: Fondo Sicurezza € 20.000</span>
+          <span id="goal-percentage">73%</span>
           </div>
           <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
             <div id="goal-bar"
@@ -356,12 +261,13 @@
             <i class="fas fa-building-columns text-[12px]" style="color: var(--info-blue);"></i>
             <span>Area Partner B2B pronta per banche e istituti</span>
           </div>
-          <button class="w-full py-2 rounded-lg text-xs font-semibold border border-slate-200 hover:bg-slate-50" aria-label="Apri area partner">
-            Richiedi integrazione PSD2 / API reportistica
+          <button class="w-full py-2 rounded-lg text-xs font-semibold border border-slate-200 hover:bg-slate-50" aria-label="Apri area partner" onclick="openPartnerModal()">
+            Attivati per il whitepaper PSD2
           </button>
         </div>
       </div>
 
+      <!-- Alert Center -->
       <section aria-label="Reminder Protego" class="space-y-2">
         <div id="alert-center" class="card p-3 hidden">
           <div class="flex items-start gap-3">
@@ -386,184 +292,7 @@
                   Riduci ritmo
                 </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section aria-label="Transazioni recenti">
-        <div class="flex justify-between items-end mb-3">
-          <h3 class="font-bold text-lg" style="color: var(--navy-trust);">Transazioni Recenti</h3>
-          <span class="text-xs text-slate-500">Ultimi 7 giorni</span>
-        </div>
-
-        <div class="space-y-3" id="transaction-list"></div>
-      </section>
-    </section>
-
-    <section id="view-stats" class="px-5 py-4 space-y-6 hidden">
-      <h2 class="text-2xl font-bold" style="color: var(--navy-trust);">Patrimonio Proiettato</h2>
-
-      <div class="grid grid-cols-2 gap-3">
-        <div class="card p-4">
-          <p class="text-xs text-slate-500">Totale Versato</p>
-          <p class="text-xl font-bold" id="stats-total-display" style="color: var(--navy-trust);">€ 14.500</p>
-          <p class="text-[10px] text-slate-500 mt-1">Capitale puro accumulato tramite Protego.</p>
-        </div>
-        <div class="card p-4"
-             style="border-color: rgba(29,122,111,0.5); background: linear-gradient(135deg, rgba(166,230,213,0.35), rgba(29,122,111,0.12));">
-          <p class="text-xs" style="color: var(--deep-emerald);">Scenario Medio (+8% netto)</p>
-          <p class="text-xl font-bold" id="val-medio" style="color: var(--deep-emerald);">€ 19.800</p>
-          <p class="text-[10px] mt-1" id="val-medio-breakdown" style="color: var(--navy-trust); opacity:0.75;">
-            Capitale: € 14.500 • Rendimento stimato: € 5.300
-          </p>
-        </div>
-      </div>
-
-      <div class="card p-4">
-        <div class="flex justify-between mb-4 items-center">
-          <h3 class="font-bold text-sm" style="color: var(--navy-trust);">Scenari di Crescita</h3>
-          <span class="text-[10px] text-slate-500">*Fee di gestione 2% già incluse</span>
-        </div>
-
-        <div class="flex flex-wrap gap-3 mb-3 justify-center">
-          <div class="flex items-center gap-1">
-            <div class="w-2 h-2 rounded-full" style="background-color: var(--warm-gold);"></div>
-            <span class="text-[10px] text-slate-600">Min 4% netto</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <div class="w-2 h-2 rounded-full" style="background-color: var(--deep-emerald);"></div>
-            <span class="text-[10px] text-slate-600">Med 8% netto</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <div class="w-2 h-2 rounded-full" style="background-color: var(--sky-mint);"></div>
-            <span class="text-[10px] text-slate-600">Max 13% netto</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <div class="w-2 h-2 rounded-full" style="background-color: rgba(10,26,47,0.65);"></div>
-            <span class="text-[10px] text-slate-600">Versati</span>
-          </div>
-        </div>
-
-        <div class="relative h-64 w-full">
-          <canvas id="growthChart"></canvas>
-        </div>
-        <p class="text-[10px] text-center text-slate-500 mt-2">
-          Proiezione su 7 anni con interesse composto netto, a fini puramente illustrativi.
-        </p>
-      </div>
-    </section>
-
-    <section id="view-cards" class="px-5 py-4 space-y-6 hidden">
-      <h2 class="text-2xl font-bold" style="color: var(--navy-trust);">Wallet & Conti</h2>
-      <p class="text-slate-500 text-sm">
-        Metodi collegati per il prelievo automatico dal gioco verso Protego.
-      </p>
-
-      <div class="space-y-4 mt-2">
-        <div class="bank-card p-5 shadow-xl transform transition hover:scale-[1.02]">
-          <div class="flex justify-between items-start mb-8 relative z-10">
-            <i class="fas fa-wifi text-white/70 rotate-90"></i>
-            <span class="font-bold italic text-white/80">VISA</span>
-          </div>
-          <div class="text-lg font-mono tracking-widest text-white relative z-10 mb-2">
-            **** **** **** 4589
-          </div>
-          <div class="flex justify-between text-xs text-white/80 relative z-10">
-            <span>Mario Rossi</span>
-            <span>Exp 09/28</span>
-          </div>
-        </div>
-
-        <div class="card p-4 flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold italic"
-                 style="background-color:#003087;">
-              P
-            </div>
-            <div>
-              <p class="font-bold" style="color: var(--navy-trust);">PayPal</p>
-              <p class="text-xs text-slate-500">mario.rossi@email.it</p>
-            </div>
-          </div>
-          <div class="text-xs px-2 py-1 rounded"
-               style="background-color: rgba(166,230,213,0.55); color: var(--deep-emerald);">
-            Collegato
-          </div>
-        </div>
-
-        <div class="card p-4 flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full flex items-center justify-center"
-                 style="background-color: #E5EEF3; color: var(--navy-trust);">
-              <i class="fas fa-university"></i>
-            </div>
-            <div>
-              <p class="font-bold" style="color: var(--navy-trust);">Conto Direct</p>
-              <p class="text-xs text-slate-500">IT88 O 03... 8821</p>
-            </div>
-          </div>
-          <div class="text-xs px-2 py-1 rounded"
-               style="background-color: rgba(166,230,213,0.55); color: var(--deep-emerald);">
-            Collegato
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="view-profile" class="px-5 py-4 space-y-6 hidden">
-      <div class="flex items-center gap-4 mb-6">
-        <div class="w-16 h-16 rounded-full border-2 overflow-hidden flex items-center justify-center"
-             style="border-color: var(--deep-emerald); background-color:#E5EEF3;">
-          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Mario" alt="Avatar" class="w-full h-full">
-        </div>
-        <div>
-          <h2 class="text-xl font-bold" style="color: var(--navy-trust);">Mario Rossi</h2>
-          <p class="text-sm text-slate-500">ID: #88291 • Premium</p>
-        </div>
-      </div>
-
-      <div class="space-y-2">
-        <div class="card p-4 flex justify-between items-center cursor-pointer hover:bg-slate-50">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded flex items-center justify-center"
-                 style="background-color:#E5EEF3; color: var(--deep-emerald);">
-              <i class="fas fa-user"></i>
-            </div>
-            <span style="color: var(--navy-trust);">Dati Personali</span>
-          </div>
-          <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
-        </div>
-
-        <div class="card p-4 flex justify-between items-center cursor-pointer hover:bg-slate-50">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded flex items-center justify-center"
-                 style="background-color:#E5EEF3; color: var(--deep-emerald);">
-              <i class="fas fa-fingerprint"></i>
-            </div>
-            <span style="color: var(--navy-trust);">Sicurezza & FaceID</span>
-          </div>
-          <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
-        </div>
-
-        <div class="card p-4 flex justify-between items-center cursor-pointer hover:bg-slate-50">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded flex items-center justify-center"
-                 style="background-color:#E5EEF3; color: var(--deep-emerald);">
-              <i class="fas fa-sliders-h"></i>
-            </div>
-            <div class="flex flex-col">
-              <span style="color: var(--navy-trust);">Impostazioni % Risparmio</span>
-              <span id="profile-saving-rate"
-                    class="text-[11px] text-slate-500 mt-0.5">Attuale: 12%</span>
-            </div>
-          </div>
-          <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
-        </div>
-      </div>
-
-      <div class="card p-4 space-y-4">
-        <h3 class="font-bold text-sm" style="color: var(--navy-trust);">Protezione Gioco</h3>
+@@ -447,50 +571,57 @@
 
         <div>
           <label class="text-xs text-slate-500">Limite mensile di gioco (€)</label>
@@ -593,6 +322,7 @@
     <p class="font-semibold text-slate-700">Protego S.r.l. • CF/P.IVA 12345678901</p>
     <p>Registro Unico Intermediari (RUI) – Sezione E: n. E000999999 • Vigilanza IVASS. In assenza di mandato diretto, Protego opera come segnalatore: nessuna consulenza personalizzata.</p>
     <p class="mt-1">Informativa privacy GDPR per dati particolari disponibile nell'area documenti. Diritto di revoca del consenso in qualsiasi momento senza impatto sui servizi già prestati.</p>
+    <div class="h-6"></div>
   </footer>
 
   <nav class="h-[80px] bg-white border-t border-[rgba(10,26,47,0.06)] flex justify-around items-center px-2 fixed bottom-0 w-full max-w-[450px] z-30">
@@ -620,128 +350,12 @@
     </button>
 
     <button onclick="switchTab('cards')" id="nav-cards"
-            class="nav-item text-slate-400 flex flex-col items-center gap-1 p-2 w-16 transition">
-      <i class="fas fa-credit-card text-xl mb-1"></i>
-      <span class="text-[10px] font-semibold">Cards</span>
-    </button>
-    <button onclick="switchTab('profile')" id="nav-profile"
-            class="nav-item text-slate-400 flex flex-col items-center gap-1 p-2 w-16 transition">
-      <i class="fas fa-user text-xl mb-1"></i>
-      <span class="text-[10px] font-semibold">Profile</span>
-    </button>
-  </nav>
-
-  <div id="saving-modal" class="fixed inset-0 bg-black/40 flex items-end justify-center z-40 hidden">
-    <div class="w-full max-w-[450px] bg-white rounded-t-2xl border-t border-[rgba(10,26,47,0.08)] p-5 space-y-4">
-      <div class="flex justify-between items-center">
-        <h3 class="text-lg font-bold" style="color: var(--navy-trust);">Imposta la protezione</h3>
-        <button onclick="closeSavingModal()" class="text-slate-400 text-sm">Chiudi</button>
-      </div>
-
-      <p class="text-xs text-slate-500">
-        Scegli la percentuale di ogni deposito che Protego sposta automaticamente nel tuo fondo sicuro.
-      </p>
-
-      <div class="flex gap-2">
-        <button type="button" class="saving-option flex-1 py-3 rounded-xl border text-sm"
-                data-rate="0.05"
-                style="border-color: rgba(10,26,47,0.15); color: var(--navy-trust); background-color:#F9FAFB;">
-          5% • Light
-        </button>
-        <button type="button" class="saving-option flex-1 py-3 rounded-xl border text-sm"
-                data-rate="0.12"
-                style="border-color: rgba(29,122,111,0.5); color: var(--navy-trust); background: linear-gradient(135deg, rgba(166,230,213,0.5), rgba(29,122,111,0.15));">
-          12% • Standard
-        </button>
-        <button type="button" class="saving-option flex-1 py-3 rounded-xl border text-sm"
-                data-rate="0.20"
-                style="border-color: rgba(196,167,111,0.7); color: var(--navy-trust); background-color:#FFF9ED;">
-          20% • Forte
-        </button>
-      </div>
-
-      <div class="flex justify-between items-center text-xs text-slate-500">
-        <span>Percentuale selezionata:</span>
-        <span id="selected-rate-label" class="font-semibold" style="color: var(--deep-emerald);">12%</span>
-      </div>
-
-      <button type="button" onclick="applySavingRate()"
-              class="w-full mt-2 py-3 rounded-xl text-sm font-semibold"
-              style="background: linear-gradient(90deg, var(--deep-emerald), var(--sky-mint)); color: var(--navy-trust);">
-        Applica e ricalcola storico
+@@ -618,87 +749,269 @@
       </button>
     </div>
   </div>
 
-  <div id="nudge-modal" class="fixed inset-0 bg-black/30 flex items-end justify-center z-50 hidden">
-    <div class="w-full max-w-[450px] bg-white rounded-t-2xl p-6 shadow-2xl border-t-4 animate-slide-up"
-         style="border-color: var(--alert-orange);">
-      <div class="flex gap-4">
-        <div class="w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center"
-             style="background-color: #FFF4E5; color: var(--alert-orange);">
-          <i class="fas fa-hourglass-half text-2xl"></i>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold text-slate-800" id="nudge-title">Pausa breve?</h3>
-          <p class="text-sm text-slate-600 mt-1 leading-relaxed" id="nudge-text">
-            Abbiamo notato un ritmo di gioco elevato. Fermarsi 2 minuti ora aiuta a riprendere controllo e decisioni più lucide.
-          </p>
-        </div>
-      </div>
-      <div class="flex gap-3 mt-6">
-        <button onclick="closeNudge()" class="flex-1 py-3 rounded-xl border border-slate-200 text-sm font-semibold text-slate-500">
-          Ignora
-        </button>
-        <button onclick="closeNudge(true)" class="flex-1 py-3 rounded-xl text-sm font-semibold text-white shadow-lg"
-                style="background-color: var(--alert-orange);">
-          Ok, faccio una pausa
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div id="block-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[60] hidden p-5">
-    <div class="w-full bg-white rounded-2xl p-6 shadow-2xl relative overflow-hidden animate-slide-up">
-      <div class="absolute top-0 left-0 w-full h-2" style="background-color: var(--danger-red);"></div>
-
-      <div class="text-center mb-4">
-        <div class="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4"
-             style="background-color: #FEF2F2; color: var(--danger-red);">
-          <i class="fas fa-hand-paper text-3xl"></i>
-        </div>
-        <h2 class="text-2xl font-bold text-slate-900">Deposito Bloccato</h2>
-        <p class="text-xs font-bold uppercase tracking-widest mt-1" style="color: var(--danger-red);">
-          Sopra la tua soglia di sicurezza
-        </p>
-      </div>
-
-      <div class="bg-slate-50 rounded-xl p-4 mb-4 border border-slate-100">
-        <div class="flex justify-between text-sm mb-1">
-          <span class="text-slate-500">Tentativo deposito:</span>
-          <span class="font-bold text-slate-800" id="block-attempt">€ 0,00</span>
-        </div>
-        <div class="flex justify-between text-sm mb-1">
-          <span class="text-slate-500">Limite mensile:</span>
-          <span class="font-bold text-slate-800" id="block-avg">€ 0,00</span>
-        </div>
-        <hr class="border-slate-200 my-2">
-        <div class="flex justify-between text-sm">
-          <span class="text-slate-500">Spesa prevista mese:</span>
-          <span class="font-bold" style="color: var(--danger-red);" id="block-projected">€ 0,00</span>
-        </div>
-      </div>
-
-      <p class="text-center text-sm text-slate-500 mb-6" id="block-desc">
-        Protego ha respinto il deposito verso il sito di gioco per rispettare le tue impostazioni di sicurezza.
-      </p>
-
-      <button onclick="closeBlock()" class="w-full py-3 rounded-xl text-sm font-bold text-white shadow-lg transition transform active:scale-95"
-              style="background-color: var(--danger-red);">
-        Ho capito
-      </button>
-    </div>
-  </div>
-
+  <!-- Notifications Modal -->
   <div id="notifications-modal" class="fixed inset-0 bg-black/30 hidden z-[70]">
     <div class="absolute inset-0" onclick="closeNotifications()"></div>
 
@@ -762,6 +376,7 @@
     </div>
   </div>
 
+  <!-- Explainability Modal -->
   <div id="explain-modal" class="fixed inset-0 bg-black/40 hidden z-[70]">
     <div class="absolute inset-0" onclick="closeExplainability()"></div>
     <div class="absolute bottom-0 left-0 right-0 mx-auto w-full max-w-[450px] bg-white rounded-t-2xl border-t border-[rgba(10,26,47,0.08)] p-5 space-y-3 animate-slide-up shadow-2xl">
@@ -779,6 +394,7 @@
     </div>
   </div>
 
+  <!-- Support / Therapy Modal -->
   <div id="support-modal" class="fixed inset-0 bg-black/40 hidden z-[70]">
     <div class="absolute inset-0" onclick="closeSupport()"></div>
     <div class="absolute bottom-0 left-0 right-0 mx-auto w-full max-w-[450px] bg-white rounded-t-2xl border-t border-[rgba(10,26,47,0.08)] p-5 space-y-4 animate-slide-up shadow-2xl">
@@ -808,10 +424,47 @@
             <button class="text-[13px] text-white font-semibold px-3 py-1.5 rounded-lg" style="background-color: var(--danger-red);" onclick="triggerEmergencyBlock()">Attiva blocco totale ora</button>
           </div>
         </div>
+        <div class="flex items-start gap-2 p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
+          <i class="fas fa-book-open text-[14px]" style="color: var(--info-blue);"></i>
+          <form class="flex-1 space-y-1" onsubmit="captureEmail(event, 'family-guide')">
+            <p class="font-semibold" style="color: var(--navy-trust);">Guida per le famiglie</p>
+            <p class="text-[12px] text-slate-500">Ricevi il PDF “Segnali precoci da riconoscere”.</p>
+            <div class="flex gap-2 mt-1">
+              <input name="email" type="email" required placeholder="email aziendale o personale" class="flex-1 border rounded-lg px-3 py-2 text-sm" aria-label="Inserisci email per ricevere la guida">
+              <button type="submit" class="px-3 py-2 rounded-lg text-xs font-semibold text-white" style="background: linear-gradient(90deg, var(--info-blue), var(--deep-emerald));">Invia PDF</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Partner waitlist modal -->
+  <div id="partner-modal" class="fixed inset-0 bg-black/40 hidden z-[75]">
+    <div class="absolute inset-0" onclick="closePartnerModal()"></div>
+    <div class="absolute bottom-0 left-0 right-0 mx-auto w-full max-w-[450px] bg-white rounded-t-2xl border-t border-[rgba(10,26,47,0.08)] p-5 space-y-4 animate-slide-up shadow-2xl">
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg font-bold" style="color: var(--navy-trust);">Waitlist Partner / Istituti</h3>
+        <button onclick="closePartnerModal()" class="text-sm text-slate-400">Chiudi</button>
+      </div>
+      <p class="text-sm text-slate-600">Scarica il whitepaper tecnico sull'integrazione PSD2 e sull'assicurazione parametrica. Inserisci la mail aziendale per ricevere link e update I3P/Università.</p>
+      <form class="space-y-3" onsubmit="captureEmail(event, 'partner')">
+        <div>
+          <label class="text-xs text-slate-500">Email aziendale</label>
+          <input name="email" type="email" required placeholder="nome@banca.it" class="mt-1 w-full border rounded-lg px-3 py-2 text-sm">
+        </div>
+        <div class="flex items-start gap-2 text-xs text-slate-500 bg-slate-50 border border-slate-100 rounded-lg p-3">
+          <i class="fas fa-shield-alt mt-0.5" style="color: var(--deep-emerald);"></i>
+          <span>Validazione in corso con partner I3P e Università: ricevi note di prova e KPI periodici.</span>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl text-sm font-semibold text-white shadow" style="background: linear-gradient(90deg, var(--deep-emerald), var(--info-blue));">
+          Ricevi whitepaper e aggiornamenti
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- GDPR Consent Banner -->
   <div id="consent-banner" class="fixed left-0 right-0 mx-auto max-w-[450px] bottom-20 z-[80] hidden">
     <div class="m-3 p-4 rounded-2xl shadow-2xl border border-[rgba(10,26,47,0.08)] bg-white">
       <div class="flex items-start gap-3">
@@ -850,6 +503,23 @@
     </div>
   </div>
 
+  <!-- Save progress modal -->
+  <div id="save-progress-modal" class="fixed inset-0 bg-black/40 hidden z-[80]">
+    <div class="absolute inset-0" onclick="closeSaveProgress()"></div>
+    <div class="absolute bottom-0 left-0 right-0 mx-auto w-full max-w-[450px] bg-white rounded-t-2xl border-t border-[rgba(10,26,47,0.08)] p-5 space-y-3 animate-slide-up shadow-2xl">
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg font-bold" style="color: var(--navy-trust);">Salva i tuoi settaggi</h3>
+        <button onclick="closeSaveProgress()" class="text-sm text-slate-400">Chiudi</button>
+      </div>
+      <p class="text-sm text-slate-600">Vuoi ricevere questa configurazione via email per riprenderla al prossimo accesso?</p>
+      <form class="space-y-2" onsubmit="captureEmail(event, 'progress')">
+        <input name="email" type="email" required placeholder="La tua email" class="w-full border rounded-lg px-3 py-2 text-sm">
+        <button type="submit" class="w-full py-3 rounded-xl text-sm font-semibold text-white" style="background: linear-gradient(90deg, var(--deep-emerald), var(--warm-gold));">Invia configurazione</button>
+        <p class="text-[11px] text-slate-400">Useremo la mail solo per salvare i settaggi e inviare istruzioni di recupero.</p>
+      </form>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -880,7 +550,9 @@
   const STORAGE_KEYS = {
     consent: 'protego-consent',
     cooling: 'protego-cooling',
-    savingRate: 'protego-saving-rate'
+    savingRate: 'protego-saving-rate',
+    savedProgress: 'protego-progress',
+    capturedEmails: 'protego-leads'
   };
 
   // Ricostruiamo il volume di gioco "Storico" basandoci sul fatto che 14.500 sono il 12%.
@@ -904,6 +576,8 @@
   /* ===== Notifications System ===== */
   const NOTIFS = { items: [], unread: 0 };
   const CONSENT = { monitoring: true, health: false, marketing: false, accepted: false };
+  let CAPTURED_LEADS = safeStorageGet(STORAGE_KEYS.capturedEmails, []);
+  const PROGRESS_STATE = { saved: safeStorageGet(STORAGE_KEYS.savedProgress, false) };
 
   function safeStorageGet(key, fallback=null) {
     try {
@@ -946,51 +620,7 @@
       info: 'var(--navy-trust)'
     };
 
-    const item = {
-      id: 'n_' + Math.random().toString(16).slice(2),
-      ts: new Date(),
-      type,
-      title,
-      message,
-      icon: iconByType[type] || iconByType.info,
-      bg: bgByType[type] || bgByType.info,
-      iconColor: iconColorByType[type] || iconColorByType.info
-    };
-
-    NOTIFS.items.unshift(item);
-    NOTIFS.unread += 1;
-    updateNotifDot();
-    renderNotifications();
-  }
-
-  function updateNotifDot() {
-    const dot = document.getElementById('notif-dot');
-    if (!dot) return;
-    dot.style.display = NOTIFS.unread > 0 ? 'block' : 'none';
-  }
-
-  function renderNotifications() {
-    const list = document.getElementById('notifications-list');
-    if (!list) return;
-
-    if (NOTIFS.items.length === 0) {
-      list.innerHTML = `
-        <div class="card p-4 text-center">
-          <p class="text-sm font-semibold" style="color: var(--navy-trust);">Nessuna notifica</p>
-          <p class="text-xs text-slate-500 mt-1">Quando Protego rileva eventi, li vedrai qui.</p>
-        </div>
-      `;
-      return;
-    }
-
-    list.innerHTML = NOTIFS.items.map(n => `
-      <div class="card p-3 flex gap-3 items-start">
-        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-             style="background:${n.bg}; color:${n.iconColor};">
-          <i class="fas ${n.icon}"></i>
-        </div>
-        <div class="flex-1">
-          <div class="flex justify-between gap-2">
+@@ -750,105 +1063,200 @@
             <p class="font-bold text-sm" style="color: var(--navy-trust);">${n.title}</p>
             <p class="text-[10px] text-slate-400">${fmtDateTime(n.ts)}</p>
           </div>
@@ -1014,6 +644,34 @@
     const modal = document.getElementById('notifications-modal');
     if (!modal) return;
     modal.classList.add('hidden');
+  }
+
+  function captureEmail(event, type='generic') {
+    event.preventDefault();
+    const form = event.target;
+    const emailInput = form.querySelector('input[name="email"]');
+    const email = emailInput?.value?.trim();
+    if (!email) return;
+
+    CAPTURED_LEADS = CAPTURED_LEADS || [];
+    CAPTURED_LEADS.push({ type, email, ts: new Date().toISOString() });
+    safeStorageSet(STORAGE_KEYS.capturedEmails, CAPTURED_LEADS);
+
+    addNotification({
+      type: 'success',
+      title: 'Richiesta registrata',
+      message: `Riceverai il materiale richiesto su ${email}.`
+    });
+
+    if (type === 'progress') {
+      PROGRESS_STATE.saved = true;
+      safeStorageSet(STORAGE_KEYS.savedProgress, true);
+      closeSaveProgress();
+    }
+    if (type === 'partner') closePartnerModal();
+    if (type === 'family-guide') closeSupport();
+
+    form.reset();
   }
 
   function clearNotifications() {
@@ -1125,7 +783,7 @@
     showAlertCenter({
       type: 'info',
       title: 'Impostazioni salvate',
-      text: 'Protego applicherà i nuovi limiti a partire da ora (soggetto a cooling-off se restrittivo).',
+      text: 'Protego applicherà i nuovi limiti a partire da ora.',
       cta: 'Ok'
     });
 
@@ -1137,6 +795,7 @@
 
     // refresh transactions so the demo shows effect
     generateTransactions();
+    maybePromptSaveProgress();
   }
 
   /* ===== Dashboard Update ===== */
@@ -1162,16 +821,7 @@
 
     const minData = calculateGrowth(simulatedDeposits, minNet);
     const medData = calculateGrowth(simulatedDeposits, medNet);
-    const maxData = calculateGrowth(simulatedDeposits, maxNet);
-
-    const lastMed = medData[medData.length - 1];
-    const rendimento = lastMed - currentTotalSaved;
-
-    document.getElementById('val-medio').innerText = fmtEur(lastMed);
-    document.getElementById('val-medio-breakdown').innerText =
-      `Capitale: ${fmtEur(currentTotalSaved)} • Rendimento stimato: ${fmtEur(rendimento)}`;
-
-    if (window.myChart) {
+@@ -865,86 +1273,112 @@
       window.myChart.data.datasets[0].data = maxData;
       window.myChart.data.datasets[1].data = medData;
       window.myChart.data.datasets[2].data = minData;
@@ -1284,50 +934,7 @@
   }
 
   function closeNudge(setSofter=false) {
-    const m = document.getElementById('nudge-modal');
-    if (!m) return;
-    m.classList.add('hidden');
-    m.classList.remove('flex');
-
-    if (setSofter) {
-      RG.monthSpendSim = Math.max(0, RG.monthSpendSim * 0.92);
-      showAlertCenter({
-        type: 'info',
-        title: 'Ottimo.',
-        text: 'Hai preso una pausa. Protego continuerà a monitorare e aiutarti a restare nei tuoi limiti.',
-        cta: 'Continua'
-      });
-
-      addNotification({
-        type: 'success',
-        title: 'Pausa confermata',
-        message: 'Hai accettato il reminder. Continuiamo a monitorare i tuoi limiti.'
-      });
-    }
-  }
-
-  /* ===== Auto-block modal helpers ===== */
-  function openBlock({attempt=0, limit=0, projected=0, siteName='sito di gioco'} = {}) {
-    const m = document.getElementById('block-modal');
-    if (!m) return;
-
-    const a = document.getElementById('block-attempt');
-    const av = document.getElementById('block-avg');
-    const pr = document.getElementById('block-projected');
-    const desc = document.getElementById('block-desc');
-
-    if (a) a.textContent = fmtEur(attempt);
-    if (av) av.textContent = fmtEur(limit);
-    if (pr) pr.textContent = fmtEur(projected);
-    if (desc) desc.innerHTML = `Protego ha respinto il deposito verso <strong>${siteName}</strong> per rispettare le tue impostazioni di sicurezza.`;
-
-    m.classList.remove('hidden');
-    m.classList.add('flex');
-  }
-
-  function closeBlock() {
-    const m = document.getElementById('block-modal');
-    if (!m) return;
+@@ -995,50 +1429,53 @@
     m.classList.add('hidden');
     m.classList.remove('flex');
   }
@@ -1381,37 +988,7 @@
 
         if (RG.blockedCount === 1) {
           openBlock({
-            attempt: rawAmount,
-            limit: blockThreshold,
-            projected: projectedSpend,
-            siteName: site.name
-          });
-        }
-
-        showAlertCenter({
-          type: 'danger',
-          title: 'Autoblocco attivo',
-          text: 'Hai superato la tua soglia di sicurezza. Protego respinge automaticamente ulteriori depositi verso siti di gioco.',
-          cta: 'Capito'
-        });
-
-        addNotification({
-          type: 'danger',
-          title: 'Deposito bloccato',
-          message: `Respinto su ${site.name}: superamento soglia di sicurezza. Tentativo: € ${amount}.`
-        });
-      } else {
-        RG.monthSpendSim = projectedSpend;
-
-        // success notification
-        addNotification({
-          type: 'success',
-          title: 'Deposito andato a buon fine',
-          message: `Operazione approvata su ${site.name}: € ${amount}. Protego ha accantonato € ${invested}.`
-        });
-      }
-
-      html += `
+@@ -1076,50 +1513,51 @@
         <div class="card p-3 flex justify-between items-center ${isBlocked ? 'opacity-60' : ''}">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${site.class}">
@@ -1463,46 +1040,7 @@
 
   const years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024'];
 
-  function calculateGrowth(deposits, netRate) {
-    let result = [];
-    let currentVal = 0;
-    for (let i = 0; i < deposits.length; i++) {
-      let yearlyDeposit = deposits[i] - (i > 0 ? deposits[i - 1] : 0);
-      currentVal = (currentVal + yearlyDeposit) * (1 + netRate);
-      result.push(currentVal);
-    }
-    return result;
-  }
-
-  function initChart(maxData, medData, minData, depositData) {
-    const ctx = document.getElementById('growthChart').getContext('2d');
-    window.myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: years,
-        datasets: [
-          { label: 'Max (13% netto)', data: maxData, borderColor: '#C4A76F', backgroundColor: 'rgba(196,167,111,0)', borderWidth: 2, borderDash: [2,2], pointRadius: 0, tension: 0.4 },
-          { label: 'Med (8% netto)', data: medData, borderColor: '#1D7A6F', backgroundColor: 'rgba(166,230,213,0.35)', borderWidth: 3, fill: true, tension: 0.4 },
-          { label: 'Min (4% netto)', data: minData, borderColor: '#A6E6D5', backgroundColor: 'rgba(166,230,213,0)', borderWidth: 2, borderDash: [2,2], pointRadius: 0, tension: 0.4 },
-          { label: 'Versati', data: depositData, borderColor: 'rgba(10,26,47,0.7)', borderDash: [5,5], borderWidth: 1, pointRadius: 2, fill: false, tension: 0.2 }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: {display:false}, tooltip: {mode:'index', intersect:false} },
-        scales: {
-          x: { grid: {display:false}, ticks: { color:'#6B7280', font:{size:10} } },
-          y: { grid: {color:'#E5E7EB'}, ticks: { color:'#6B7280', font:{size:10}, callback: v => '€' + (v/1000) + 'k' } }
-        },
-        interaction: { mode:'nearest', axis:'x', intersect:false }
-      }
-    });
-  }
-
-  /* ===== Saving Modal logic ===== */
-  function openSavingModal() {
-    const modal = document.getElementById('saving-modal');
+@@ -1166,90 +1604,309 @@
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     pendingSavingRate = currentSavingRate;
@@ -1546,6 +1084,8 @@
     if (label) label.textContent = perc + '%';
   }
 
+  function applySavingRate() {
+    currentSavingRate = pendingSavingRate;
   function formatDuration(ms) {
     const sec = Math.max(0, Math.floor(ms / 1000));
     const h = Math.floor(sec / 3600);
@@ -1556,9 +1096,11 @@
     return `${s}s`;
   }
 
+    const percDisplay = Math.round(currentSavingRate * 100) + '%';
   function setSavingLabel(percDisplay) {
     const savingRateLabel = document.getElementById('saving-rate-label');
     if (savingRateLabel) {
+      savingRateLabel.innerHTML = 'Investimento autom.: <strong>' + percDisplay + '</strong> sui volumi';
       savingRateLabel.innerHTML = `Investimento autom.: <strong>${percDisplay}</strong> sui volumi <button onclick="openExplainability()" class="text-[10px] px-2 py-1 rounded-full border border-white/50 bg-white/70 text-slate-600 hover:text-slate-900" aria-label="Spiega come funziona">Come funziona</button>`;
     }
   }
@@ -1643,6 +1185,8 @@
       title: 'Cambio attivo',
       message: `La nuova percentuale ${percDisplay} è ora applicata dopo il periodo di cooling-off.`
     });
+
+    maybePromptSaveProgress();
   }
 
   function startCoolingCountdown() {
@@ -1677,9 +1221,12 @@
     showCoolingBanner();
     closeSavingModal();
     persistCoolingState();
+    maybePromptSaveProgress();
 
     addNotification({
       type: 'info',
+      title: 'Percentuale aggiornata',
+      message: `Nuovo rate: ${percDisplay}. Storico ricalcolato.`
       title: 'Cambio programmato',
       message: 'La modifica sarà attiva dopo la finestra di 48h (demo accelerata).'
     });
@@ -1747,6 +1294,35 @@
   function closeSupport() {
     const modal = document.getElementById('support-modal');
     if (modal) modal.classList.add('hidden');
+  }
+
+  function openPartnerModal() {
+    const modal = document.getElementById('partner-modal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  function closePartnerModal() {
+    const modal = document.getElementById('partner-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function openSaveProgress() {
+    const modal = document.getElementById('save-progress-modal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  function closeSaveProgress() {
+    const modal = document.getElementById('save-progress-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function maybePromptSaveProgress() {
+    if (PROGRESS_STATE.saved) return;
+    const modal = document.getElementById('save-progress-modal');
+    if (!modal) return;
+    setTimeout(() => {
+      if (!PROGRESS_STATE.saved) openSaveProgress();
+    }, 600);
   }
 
   function triggerEmergencyBlock() {
