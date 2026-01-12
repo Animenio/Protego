@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProtegoPay Demo</title>
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="theme-color" content="#0b1f3a">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy-trust: #0A1A2F;
+      --deep-emerald: #1D7A6F;
+      --sky-mint: #A6E6D5;
+      --warm-gold: #C4A76F;
+      --bg-main: #FFFFFF;
+    }
+
+    body {
+      background-color: #F8FAFC;
+      color: var(--navy-trust);
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .card {
+      background-color: #FFFFFF;
+      border: 1px solid rgba(10, 26, 47, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(10, 26, 47, 0.06);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="min-h-screen">
+    <header class="bg-white border-b border-[rgba(10,26,47,0.08)]">
+      <div class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <i class="fas fa-shield-alt text-emerald-700"></i>
+          <span class="font-bold" style="color: var(--navy-trust);">ProtegoPay Demo</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="../simrev/" class="text-xs font-semibold px-3 py-1 rounded border border-slate-200 text-slate-500 hover:text-slate-700 hover:border-slate-300">SimRev</a>
+          <a href="../index.html" class="text-xs font-semibold px-3 py-1 rounded border border-slate-200 text-slate-500 hover:text-slate-700 hover:border-slate-300">Torna alla Home</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 py-6 space-y-6">
+      <section class="card p-4 space-y-3">
+        <h3 class="font-bold text-sm" style="color: var(--navy-trust);">Demo Controls</h3>
+        <label class="text-xs text-slate-500">Select scenario:</label>
+        <select id="demoScenarioSelect" class="w-full border rounded-lg px-3 py-2 text-sm"></select>
+        <div id="demoScenarioSelectedLabel" class="text-xs text-slate-500"></div>
+
+        <div class="text-xs text-slate-600 space-y-1">
+          <div>status: <span id="outStatus">—</span></div>
+          <div>reason_code: <span id="outReasonCode">—</span></div>
+          <div>next_action: <span id="outNextAction">—</span></div>
+          <div>decision_trace_id: <span id="outTraceId">—</span></div>
+          <div>timestamp: <span id="outTimestamp">—</span></div>
+        </div>
+
+        <details>
+          <summary class="text-xs text-slate-500">Trace</summary>
+          <pre id="tracePre" class="text-[10px] text-slate-500 mt-2"></pre>
+        </details>
+      </section>
+
+      <section class="card p-4 space-y-2">
+        <h3 class="font-bold text-sm" style="color: var(--navy-trust);">Demo Metrics (simulated)</h3>
+        <div class="text-xs text-slate-600 space-y-1">
+          <div>Total decisions: <span id="kpi_decisions">0</span></div>
+          <div>Approved: <span id="kpi_approved">0</span></div>
+          <div>Rejected: <span id="kpi_rejected">0</span></div>
+          <div>Timeout: <span id="kpi_timeout">0</span></div>
+        </div>
+      </section>
+
+      <section class="card p-4 space-y-4">
+        <div>
+          <h3 class="font-bold text-sm" style="color: var(--navy-trust);">Cosa rappresenta questa demo</h3>
+          <ul class="mt-2 text-xs text-slate-600 list-disc list-inside space-y-1">
+            <li>Questa demo simula il comportamento del motore decisionale proprietario (ProtegoCore)</li>
+            <li>Selezionando uno scenario si ottiene una risposta decisionale deterministica</li>
+            <li>La risposta è sempre una tripla: (<code>status</code>, <code>reason_code</code>, <code>next_action</code>)</li>
+            <li>Il Trace è un log di spiegabilità del percorso decisionale (simulato per chiarezza della demo)</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-sm" style="color: var(--navy-trust);">Cosa fa l'algoritmo oggi (TRL3)</h3>
+          <ul class="mt-2 text-xs text-slate-600 list-disc list-inside space-y-1">
+            <li>Orchestra un flusso decisionale per depositi</li>
+            <li>Applica regole deterministiche di gating (es. limiti, cooldown, blocchi)</li>
+            <li>Rappresenta la gestione timeout come TIMEOUT + <code>next_action=CHECK_STATUS</code> (concetto di convergenza)</li>
+            <li>È progettato per essere idempotente (stessa intenzione → stesso risultato) e prevenire effetti duplicati</li>
+            <li>Dimostrato a livello di logica/contratto e suite di test deterministiche (questa UI è un mockup, non il motore stesso)</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-sm" style="color: var(--navy-trust);">Dove siamo: TRL3 → TRL4 → TRL5</h3>
+          <ul class="mt-2 text-xs text-slate-600 list-disc list-inside space-y-1">
+            <li><strong>TRL3 (oggi):</strong> contratto decisionale + scenari deterministici + riproducibilità (UI simulata)</li>
+            <li><strong>TRL4:</strong> validare lo STESSO contratto decisionale contro UNA sandbox provider reale (senza riscrittura). Esempi: scenario "OK", "LIMIT", "TIMEOUT→CHECK_STATUS" eseguiti con risposte sandbox.</li>
+            <li><strong>TRL5:</strong> eseguire lo STESSO motore in staging production-like: scheduling di status-check + riconciliazione, osservabilità minima, runbook.</li>
+          </ul>
+        </div>
+        <div class="text-xs text-slate-500 italic">
+          <p>Le metriche sono simulate. Nessun provider reale è connesso. Nessun movimento reale di denaro.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/js/contract/ui_contract.js"></script>
+  <script src="/js/demo/demo_ui.js"></script>
+  <script src="/js/demo/demo_decision_engine.js"></script>
+  <script src="/js/demo/demo_metrics.js"></script>
+</body>
+</html>
